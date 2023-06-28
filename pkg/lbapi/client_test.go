@@ -17,6 +17,25 @@ func newGQLClientMock() *mock.GQLClient {
 		if ok {
 			lb.LoadBalancer.ID = "loadbal-test"
 			lb.LoadBalancer.Name = "test"
+			lb.LoadBalancer.Ports.Edges = []PortEdges{
+				{
+					Node: PortNode{
+						ID:     "loadprt-test",
+						Name:   "porty",
+						Number: 80,
+						IPAddressableFragment: IPAddressableFragment{
+							ID: "loadbal-test",
+							IPAddresses: []IPAddress{
+								{
+									ID:       "ipamipa-test",
+									IP:       "192.168.1.42",
+									Reserved: false,
+								},
+							},
+						},
+					},
+				},
+			}
 		}
 
 		return nil

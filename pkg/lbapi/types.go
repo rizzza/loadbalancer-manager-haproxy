@@ -56,7 +56,7 @@ type IPAddress struct {
 }
 
 type IPAddressableFragment struct {
-	ID          string // nodeID owning the addresses
+	NodeID      string `graphql:"nodeID: id"` // alias ID to nodeID
 	IPAddresses []IPAddress
 }
 

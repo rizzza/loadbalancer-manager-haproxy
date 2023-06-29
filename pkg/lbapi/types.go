@@ -24,11 +24,10 @@ type Pool struct {
 }
 
 type PortNode struct {
-	ID                    string
-	Name                  string
-	Number                int64
-	IPAddressableFragment `graphql:"... on IPAddressable"`
-	Pools                 []Pool
+	ID     string
+	Name   string
+	Number int64
+	Pools  []Pool
 }
 
 type PortEdges struct {
@@ -40,9 +39,10 @@ type Ports struct {
 }
 
 type LoadBalancer struct {
-	ID    string
-	Name  string
-	Ports Ports
+	ID                    string
+	Name                  string
+	IPAddressableFragment `graphql:"... on IPAddressable"`
+	Ports                 Ports
 }
 
 type GetLoadBalancer struct {
@@ -56,7 +56,6 @@ type IPAddress struct {
 }
 
 type IPAddressableFragment struct {
-	NodeID      string `graphql:"nodeID: id"` // alias ID to nodeID
 	IPAddresses []IPAddress
 }
 
@@ -65,12 +64,12 @@ type IPAddressableFragment struct {
 // 	LoadBalancer struct {
 // 		ID    string
 // 		Name  string
+//		IPAddressableFragment
 // 		Ports struct {
 // 			Edges []struct {
 // 				Node struct {
 // 					Name   string
 // 					Number int64
-//					IPAddressableFragment
 // 					Pools  []struct {
 // 						Name     string
 // 						Protocol string

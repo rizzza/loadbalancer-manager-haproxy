@@ -18,21 +18,25 @@ func TestGetLoadBalancer(t *testing.T) {
 		"loadBalancer": {
 			"id": "loadbal-randovalue",
 			"name": "some lb",
+			"IPAddresses": [
+				{
+					"id": "ipamipa-randovalue",
+					"ip": "192.168.1.42",
+					"reserved": false
+				},
+				{
+					"id": "ipamipa-randovalue2",
+					"ip": "192.168.1.1",
+					"reserved": true
+				}
+			],
 			"ports": {
 				"edges": [
 					{
 						"node": {
 							"name": "porty",
 							"id": "loadprt-randovalue",
-							"number": 80,
-							"nodeID": "loadbal-randovalue",
-							"IPAddresses": [
-								{
-									"id": "ipamipa-randovalue",
-									"ip": "192.168.1.42",
-									"reserved": false
-								}
-							]
+							"number": 80
 						}
 					}
 				]
@@ -59,17 +63,18 @@ func TestGetLoadBalancer(t *testing.T) {
 
 		assert.Equal(t, "loadbal-randovalue", lb.LoadBalancer.ID)
 		assert.Equal(t, "some lb", lb.LoadBalancer.Name)
-
-		require.Len(t, lb.LoadBalancer.Ports.Edges, 1)
-		assert.Equal(t, "loadprt-randovalue", lb.LoadBalancer.Ports.Edges[0].Node.ID)
 		assert.Equal(t, "porty", lb.LoadBalancer.Ports.Edges[0].Node.Name)
 		assert.Equal(t, int64(80), lb.LoadBalancer.Ports.Edges[0].Node.Number)
 		assert.Empty(t, lb.LoadBalancer.Ports.Edges[0].Node.Pools)
 
-		require.Len(t, lb.LoadBalancer.Ports.Edges[0].Node.IPAddresses, 1)
-		assert.Equal(t, "ipamipa-randovalue", lb.LoadBalancer.Ports.Edges[0].Node.IPAddresses[0].ID)
-		assert.Equal(t, "192.168.1.42", lb.LoadBalancer.Ports.Edges[0].Node.IPAddresses[0].IP)
-		assert.False(t, lb.LoadBalancer.Ports.Edges[0].Node.IPAddresses[0].Reserved)
+		require.Len(t, lb.LoadBalancer.IPAddresses, 2)
+		assert.Equal(t, "ipamipa-randovalue", lb.LoadBalancer.IPAddresses[0].ID)
+		assert.Equal(t, "192.168.1.42", lb.LoadBalancer.IPAddresses[0].IP)
+		assert.False(t, lb.LoadBalancer.IPAddresses[0].Reserved)
+
+		assert.Equal(t, "ipamipa-randovalue2", lb.LoadBalancer.IPAddresses[1].ID)
+		assert.Equal(t, "192.168.1.1", lb.LoadBalancer.IPAddresses[1].IP)
+		assert.True(t, lb.LoadBalancer.IPAddresses[1].Reserved)
 	})
 }
 

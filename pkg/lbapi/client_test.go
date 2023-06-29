@@ -42,7 +42,7 @@ func TestGetLoadBalancer(t *testing.T) {
 }`
 
 	cli := Client{
-		client: mustNewGQLTestClient(respJSON),
+		gqlCli: mustNewGQLTestClient(respJSON),
 	}
 
 	t.Run("bad prefix", func(t *testing.T) {

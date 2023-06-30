@@ -42,9 +42,15 @@ type OwnerNode struct {
 	ID string
 }
 
+type LocationNode struct {
+	ID string
+}
+
 type LoadBalancer struct {
 	ID                    string
 	Name                  string
+	Owner                 OwnerNode
+	Location              LocationNode
 	IPAddressableFragment `graphql:"... on IPAddressable"`
 	Ports                 Ports
 }
@@ -60,7 +66,7 @@ type IPAddress struct {
 }
 
 type IPAddressableFragment struct {
-	IPAddresses []IPAddress
+	IPAddresses []IPAddress `graphql:"IPAddresses" json:"IPAddresses"`
 }
 
 // Readable version of the above:

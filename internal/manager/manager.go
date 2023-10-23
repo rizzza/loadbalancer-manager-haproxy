@@ -216,6 +216,7 @@ func mergeConfig(cfg parser.Parser, lb *lbapi.LoadBalancer) (parser.Parser, erro
 		for _, pool := range p.Node.Pools {
 			for _, origin := range pool.Origins.Edges {
 				srvAddr := fmt.Sprintf("%s:%d check port %d", origin.Node.Target, origin.Node.PortNumber, origin.Node.PortNumber)
+				srvAddr += fmt.Sprintf(" weight %d", origin.Node.Weight)
 
 				if !origin.Node.Active {
 					srvAddr += " disabled"
